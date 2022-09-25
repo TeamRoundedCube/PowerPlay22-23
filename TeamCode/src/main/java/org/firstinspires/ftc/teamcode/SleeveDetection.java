@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class SleeveDetection extends LinearOpMode
 {
     OpenCvCamera camera;
-    AadilTagDetectionPipeline aadilTagDetectionPipeline;
+    AprilTagDetectionPipeline aadilTagDetectionPipeline;
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -58,7 +58,7 @@ public class SleeveDetection extends LinearOpMode
     {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        aadilTagDetectionPipeline = new AadilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+        aadilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aadilTagDetectionPipeline);
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
