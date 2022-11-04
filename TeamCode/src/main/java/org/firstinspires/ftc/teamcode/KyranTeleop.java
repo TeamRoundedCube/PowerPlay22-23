@@ -33,7 +33,6 @@ public class KyranTeleop extends OpMode {
    // boolean squared = false;
    // boolean light = false;
    // boolean tooClose = false;
-
     // Code to run ONCE when the driver hits INIT
 
     @Override
@@ -67,6 +66,10 @@ public class KyranTeleop extends OpMode {
     //Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
     @Override
     public void loop() {
+
+     //   telemetry.addData("Left Encoder Position", robot.left.getCurrentPosition());
+     //   telemetry.addData("Right Encoder Position", robot.right.getCurrentPosition());
+
         telemetry.addData("Armleft", robot.armleft.getCurrentPosition());
         telemetry.addData("armright", robot.armright.getCurrentPosition());
         telemetry.update();

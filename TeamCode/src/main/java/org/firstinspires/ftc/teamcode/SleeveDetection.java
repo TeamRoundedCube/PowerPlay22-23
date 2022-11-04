@@ -154,6 +154,8 @@ public class SleeveDetection extends LinearOpMode
         }
     }
 
+
+
     void tagToTelemetry(AprilTagDetection detection)
     {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));

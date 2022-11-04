@@ -4,19 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-
 @Autonomous
-public class AadilAuto extends LinearOpMode{
+public class BadAadilAuto extends LinearOpMode{
     private ElapsedTime runtime = new ElapsedTime();
     OpenCvCamera camera;
     AprilTagDetectionPipeline aadilTagDetectionPipeline;
@@ -40,7 +33,7 @@ public class AadilAuto extends LinearOpMode{
 
     @Override
     public void runOpMode() {
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+     /*   int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aadilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
@@ -79,6 +72,7 @@ public class AadilAuto extends LinearOpMode{
                 if(tagFound)
                 {
                     tagToTelemetry(tagOfInterest);
+                    telemetry.update();
                 }
                 else
                 {
@@ -86,11 +80,13 @@ public class AadilAuto extends LinearOpMode{
                     if(tagOfInterest == null)
                     {
                         telemetry.addLine("(The tag has never been seen)");
+                        telemetry.update();
                     }
                     else
                     {
                         telemetry.addLine("\nwe HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
+                        telemetry.update();
                     }
                 }
 
@@ -105,6 +101,7 @@ public class AadilAuto extends LinearOpMode{
                 {
                     telemetry.addLine("\nwe HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
+                    telemetry.update();
                 }
 
             }
@@ -112,20 +109,40 @@ public class AadilAuto extends LinearOpMode{
             telemetry.update();
             sleep(20);
         }
+
+      */
         waitForStart();
 
-        if (opModeIsActive()){
-            ArrayList<AprilTagDetection> currentDetections = aadilTagDetectionPipeline.getLatestDetections();
+        while (opModeIsActive()){
+
+            //Detect cone
+            driveBack(1, 15);
+            sleep(1000);
+            //Go straight
+            driveBack(1, 15);
+            //Turn and drop
+
+            // if left {
+
+            //}
+            //else if(right) {
+
+            //}
+            // else {
+
+            //}
+
+         /*   ArrayList<AprilTagDetection> currentDetections = aadilTagDetectionPipeline.getLatestDetections();
             //location 2
             driveBack(1, 15);
             for(AprilTagDetection tag : currentDetections) {
 
                 if(tag.id == LEFT){
-                    turnLeft(1, 6);
+                    turnLeft(.25, 1.2);
                     driveStraight(1,15);
                 }
                 else if (tag.id == RIGHT){
-                    turnLeft(1, 6);
+                    turnLeft(.25, 1.2);
                     driveBack(1,15);
                 }
                 else{
@@ -134,9 +151,12 @@ public class AadilAuto extends LinearOpMode{
 
                 }
             }
+            robot.right.setPower(0);
+            robot.left.setPower(0);*/
         }
     }
 
+// Functions
 
     public void driveStraight(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -161,6 +181,11 @@ public class AadilAuto extends LinearOpMode{
     }
 
 
+    /**
+     * Moves the robot backwards by an amount based on the given parameters speed and seconds
+     * @param speed
+     * @param seconds
+     */
     public void driveBack(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -183,6 +208,11 @@ public class AadilAuto extends LinearOpMode{
         }
     }
 
+    /**
+     * Turns the robot left based on the given parameters speed and seconds.
+     * @param speed
+     * @param seconds
+     */
     public void turnLeft(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -205,6 +235,12 @@ public class AadilAuto extends LinearOpMode{
         }
     }
 
+
+    /**
+     * Turns the robot right based on the given parameters speed and seconds.
+     * @param speed
+     * @param seconds
+     */
     public void turnRight(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -226,8 +262,7 @@ public class AadilAuto extends LinearOpMode{
 
         }
     }
-    void tagToTelemetry(AprilTagDetection detection) {
-        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-    }
+//    void tagToTelemetry(AprilTagDetection detection) {
+//        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+//    }
 }
-
