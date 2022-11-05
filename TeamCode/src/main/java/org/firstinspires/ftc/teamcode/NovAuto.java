@@ -6,11 +6,38 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.util.ArrayList;
+
 
 @Autonomous
 public class NovAuto extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     AadilHardwareFullBot robot = new AadilHardwareFullBot();
+
+    OpenCvCamera camera;
+    AprilTagDetectionPipeline aadilTagDetectionPipeline;
+
+    static final double FEET_PER_METER = 3.28084;
+
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
+
+    int LEFT = 1;
+    int MIDDLE = 2;
+    int RIGHT = 3;
+
+    AprilTagDetection tagOfInterest = null;
 
 
     @Override
@@ -18,27 +45,119 @@ public class NovAuto extends LinearOpMode {
         robot.init(hardwareMap);
         robot.armleft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.armright.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        aadilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+
+        camera.setPipeline(aadilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
+            @Override
+            public void onOpened()
+            {
+                camera.startStreaming(960,720, OpenCvCameraRotation.UPRIGHT);
+            }
+
+            @Override
+            public void onError(int errorCode)
+            {
+
+            }
+        });
+
+        telemetry.setMsTransmissionInterval(50);
+
+        while (!isStarted() && !isStopRequested())
+        {
+            ArrayList<AprilTagDetection> currentDetections = aadilTagDetectionPipeline.getLatestDetections();
+
+            if(currentDetections.size() != 0)
+            {
+                boolean tagFound = false;
+
+                for(AprilTagDetection tag : currentDetections)
+                {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
+                    {
+                        tagOfInterest = tag;
+                        tagFound = true;
+                        break;
+                    }
+                }
+
+                if(tagFound)
+                {
+                    tagToTelemetry(tagOfInterest);
+                }
+                else
+                {
+
+                    if(tagOfInterest == null)
+                    {
+                        telemetry.addLine("(The tag has never been seen)");
+                    }
+                    else
+                    {
+                        telemetry.addLine("\nwe HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+                }
+
+            }
+            else
+            {
+
+                if(tagOfInterest == null)
+                {
+                }
+                else
+                {
+                    telemetry.addLine("\nwe HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
+
+            telemetry.update();
+            sleep(20);
+            robot.servo.setPosition(0.5);
+        }
 
 
 
         waitForStart();
 
         if (opModeIsActive()) {
-            driveBack(1,39);
+            driveBack(0.8,32);
             sleep(100);
-            turnRight(.5, 49);
-            sleep(100);
+            turnRight(.5, 40);
+            sleep(1000);
             moveArm(0.8, 324, 310);
-            driveStraight(.9, 21);
-            sleep(100);
-            driveBack(.5, 21);
-            turnLeft(.5, 30);
+            driveStraight(.9, 15);
+            sleep(1000);
+            robot.servo.setPosition(0);
+            sleep(1000);
+            driveBack(0.5, 21);
+            tagToTelemetry(tagOfInterest);
+            if (tagOfInterest.id == MIDDLE){
+
+            }
+            if (tagOfInterest.id == LEFT){
+
+            }
+            if (tagOfInterest.id == RIGHT){
+
+            }
+
+//            sleep(1000);
+//            driveBack(.5, 21);
+//            turnLeft(.5, 30);
         }
 
     }
 
     public void driveStraight(double speed, double seconds){
-        double maxLeftSpeed = 0.9;
+        double maxLeftSpeed = 1;
         double maxRightSpeed = 0.8;
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -69,7 +188,7 @@ public class NovAuto extends LinearOpMode {
      */
     public void driveBack(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        double maxLeftSpeed = 0.9;
+        double maxLeftSpeed = 1;
         double maxRightSpeed = 0.8;
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         if (opModeIsActive()) {
@@ -97,8 +216,8 @@ public class NovAuto extends LinearOpMode {
      * @param seconds
      */
     public void turnLeft(double speed, double seconds){
-        double maxLeftSpeed = 0.9;
-        double maxRightSpeed = 0.8;
+        double maxLeftSpeed = 1;
+        double maxRightSpeed = 0.9;
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         if (opModeIsActive()) {
@@ -127,8 +246,8 @@ public class NovAuto extends LinearOpMode {
      * @param seconds
      */
     public void turnRight(double speed, double seconds){
-        double maxLeftSpeed = 0.9;
-        double maxRightSpeed = 0.8;
+        double maxLeftSpeed = 1;
+        double maxRightSpeed = 0.9;
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         if (opModeIsActive()) {
@@ -169,5 +288,9 @@ public class NovAuto extends LinearOpMode {
             sleep(1);
         }
         robot.arm.setPower(0);*/
+    }
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
     }
 }

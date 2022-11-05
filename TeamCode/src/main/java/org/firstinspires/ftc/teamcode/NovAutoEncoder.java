@@ -34,8 +34,8 @@ public class NovAutoEncoder extends LinearOpMode {
             moveArm(0.8, 324, 310);
             driveStraight(.9, 400);
             sleep(100);
-            driveBack(.5, -400);
-            turnLeft(.5, -200);
+            driveBack(.5, 400);
+            turnLeft(.5, 200);
         }
 
     }
