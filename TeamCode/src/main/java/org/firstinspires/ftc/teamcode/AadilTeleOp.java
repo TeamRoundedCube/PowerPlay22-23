@@ -40,6 +40,8 @@ public class AadilTeleOp extends OpMode {
         forwardPower = -gamepad1.right_stick_y;
         armpower = -gamepad1.left_stick_y;
 
+        telemetry.addData("Left Encoder Position", Robot.left.getCurrentPosition());
+        telemetry.addData("Right Encoder Position", Robot.right.getCurrentPosition());
         telemetry.addData("Armleft", Robot.armleft.getCurrentPosition());
         telemetry.addData("armright", Robot.armright.getCurrentPosition());
         telemetry.update();

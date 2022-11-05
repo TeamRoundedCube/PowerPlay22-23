@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 @Autonomous
-public class NovAutoEncoder extends LinearOpMode {
+public class AadilAutoTest extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     static final double COUNTS_PER_MOTOR_REV = 400;    // 537 (Original)
     static final double DRIVE_GEAR_REDUCTION = 1.0;     // This is < 1.0 if geared UP
@@ -133,25 +133,13 @@ public class NovAutoEncoder extends LinearOpMode {
         if (opModeIsActive()) {
 
             //Drive and Drop Cone
-           //moveEncoder(0.8, -encoderDrivingTarget);
-           // driveReverse(0.8, 80);
-            driveBack(1,1900);
-           sleep(300);
-            turnRight(.5, 480);
-            sleep(300);
-            moveArm(0.8, 324, 310);
-            sleep(1000);
-            driveStraight(.9, 604);
-            sleep(3000);
-            robot.servo.setPosition(0);
-            sleep(2000);
-            driveBack(.3, 500);
-            sleep(400);
-            turnLeft(.5, 265);
+            //moveEncoder(0.8, -encoderDrivingTarget);
+            // driveReverse(0.8, 80);
+            driveBack(1,880);
             sleep(500);
             switch (tagOfInterest.id) {
-                case 1: driveBack(0.5, 500); break;
-                case 3: driveStraight(0.6, 1000); break;
+                case 1: turnRight(.5, 380); driveBack(0.7, 950); break;
+                case 3: turnLeft(.5, 380); driveBack(0.6, 990); break;
                 default: robot.left.setPower(0); robot.right.setPower(0); break;
             }
             moveArm(0.5, 0, 0);
@@ -159,23 +147,23 @@ public class NovAutoEncoder extends LinearOpMode {
         }
 
     }
-        public void moveEncoder(double speed, int target) {
-            double maxLeftSpeed = 0.4;
-            double maxRightSpeed = 1;
+    public void moveEncoder(double speed, int target) {
+        double maxLeftSpeed = 0.4;
+        double maxRightSpeed = 1;
 
-            robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            robot.left.setTargetPosition(target);
-            robot.right.setTargetPosition(target);
-            robot.left.setPower((maxLeftSpeed * speed));
-            robot.right.setPower((maxRightSpeed * speed));
-            robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            while(opModeIsActive() && robot.left.isBusy() && robot.right.isBusy()){}
-                robot.left.setPower(0);
-                robot.right.setPower(0);
-}
+        robot.left.setTargetPosition(target);
+        robot.right.setTargetPosition(target);
+        robot.left.setPower((maxLeftSpeed * speed));
+        robot.right.setPower((maxRightSpeed * speed));
+        robot.left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        while(opModeIsActive() && robot.left.isBusy() && robot.right.isBusy()){}
+        robot.left.setPower(0);
+        robot.right.setPower(0);
+    }
     public void encoderDrive(double speed,
                              double leftInches, double rightInches,
                              double timeoutS) {
@@ -342,8 +330,8 @@ public class NovAutoEncoder extends LinearOpMode {
         double maxLeftSpeed = 0.5;
         double maxRightSpeed = 1;
 
-       // robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         if (opModeIsActive()) {
             double i = robot.right.getCurrentPosition();
@@ -425,8 +413,8 @@ public class NovAutoEncoder extends LinearOpMode {
         double maxLeftSpeed = 0.7;
         double maxRightSpeed = 1;
 
-       // robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-       // robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // robot.left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        // robot.right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         if (opModeIsActive()) {
             double i = robot.right.getCurrentPosition();

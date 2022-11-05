@@ -67,8 +67,8 @@ public class KyranTeleop extends OpMode {
     @Override
     public void loop() {
 
-     //   telemetry.addData("Left Encoder Position", robot.left.getCurrentPosition());
-     //   telemetry.addData("Right Encoder Position", robot.right.getCurrentPosition());
+        //telemetry.addData("Left Encoder Position", robot.left.getCurrentPosition());
+        //telemetry.addData("Right Encoder Position", robot.right.getCurrentPosition());
 
         telemetry.addData("Armleft", robot.armleft.getCurrentPosition());
         telemetry.addData("armright", robot.armright.getCurrentPosition());
@@ -92,10 +92,10 @@ public class KyranTeleop extends OpMode {
 //            robot.armleft.setPower(1);
 //            robot.armright.setPower(1);
         }
-        else if (gamepad1.right_trigger > 0.1){
+        else if (gamepad2.right_trigger > 0.1){
             robot.servo.setPosition(0);
         }
-        else if (gamepad1.left_trigger > 0.1){
+        else if (gamepad2.left_trigger > 0.1){
             robot.servo.setPosition(0.5);
         }
         else {
@@ -103,11 +103,11 @@ public class KyranTeleop extends OpMode {
             robot.right.setPower(0);
         }
         //Gamepad2
-if (gamepad1.a) {
+if (gamepad2.a) {
     moveArm(0.8, 108, 86);
-} else if (gamepad1.b) {
+} else if (gamepad2.b) {
     moveArm(0.8, 324, 310);
-} else if (gamepad1.x) {
+} else if (gamepad2.x) {
     moveArm(0.8, 182, 182);
         }
 //}
@@ -127,8 +127,8 @@ if (gamepad1.a) {
         double armSpeed = 0.75;
 
         //Arm
-        if (gamepad1.dpad_down) { //Intake position
-            moveArm(0.8, 0, 0);
+        if (gamepad2.dpad_down) { //Intake position
+            moveArm(0.5, 0, 0);
         }/* else if (gamepad2.dpad_up) { // Level 1
             // robot.basket.setPosition(0.45);
             moveArm(armSpeed, levelOne);
@@ -242,8 +242,8 @@ if (gamepad1.a) {
         robot.armleft.setTargetPosition(leftPosition);
         robot.armright.setTargetPosition(rightPosition);
         //robot.armleft.getCurrentPosition();
+        robot.armright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.armleft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                robot.armright.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         /// Kyran changed on 1-2-2022 to try to make robot fast again
