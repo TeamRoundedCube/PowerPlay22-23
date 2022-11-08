@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 
 
-@Autonomous
+@Autonomous()
 public class NovAutoSimple extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     static final double COUNTS_PER_MOTOR_REV = 400;    // 537 (Original)
@@ -135,16 +135,15 @@ public class NovAutoSimple extends LinearOpMode {
             //Drive and Drop Cone
             //moveEncoder(0.8, -encoderDrivingTarget);
             // driveReverse(0.8, 80);
-            driveBackSec(0.3,60);
             sleep(300);
 
 
             switch (tagOfInterest.id) {
-                case 1:turnRightSec(0.3, 35); sleep(300);
+                case 1:driveBackSec(0.3,60);sleep(300);turnRightSec(0.3, 35); sleep(300);
                 driveBackSec(0.3, 60); break;
-                case 3:turnRightSec(0.3, 50);sleep(300);
-                driveStraightSec(0.3, 140); break;
-                default: robot.left.setPower(0); robot.right.setPower(0); break;
+                case 3:driveBackSec(0.3,60);sleep(300);turnRightSec(0.3, 49);sleep(300);
+                driveStraightSec(0.3, 54); break;
+                default: driveBackSec(0.3,60); robot.left.setPower(0); robot.right.setPower(0); break;
             }
             //moveArm(0.5, 0, 0);
 
