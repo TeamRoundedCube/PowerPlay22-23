@@ -118,6 +118,7 @@ public class AadilAutoTest extends LinearOpMode {
 
             }
 
+
             telemetry.update();
             sleep(20);
             robot.servo.setPosition(0.5);
@@ -132,17 +133,20 @@ public class AadilAutoTest extends LinearOpMode {
 
         if (opModeIsActive()) {
 
-            //Drive and Drop Cone
-            //moveEncoder(0.8, -encoderDrivingTarget);
-            // driveReverse(0.8, 80);
-            driveBack(1,880);
-            sleep(500);
-            switch (tagOfInterest.id) {
-                case 1: turnRight(.5, 380); driveBack(0.7, 950); break;
-                case 3: turnLeft(.5, 380); driveBack(0.6, 990); break;
-                default: robot.left.setPower(0); robot.right.setPower(0); break;
-            }
-            moveArm(0.5, 0, 0);
+
+            driveStraight(0.2, 10000);
+//            //Drive and Drop Cone
+//            //moveEncoder(0.8, -encoderDrivingTarget);
+//            // driveReverse(0.8, 80);
+//            driveBack(1,880);
+//            sleep(500);
+//            switch (tagOfInterest.id) {
+//                case 1: turnRight(.5, 380); driveBack(0.7, 950); break;
+//                case 3: turnLeft(.5, 380); driveBack(0.6, 990); break;
+//                default: robot.left.setPower(0); robot.right.setPower(0); break;
+//            }
+//            moveArm(0.5, 0, 0);
+
 
         }
 
@@ -296,6 +300,9 @@ public class AadilAutoTest extends LinearOpMode {
 
 
             while (opModeIsActive() && i < rightTarget && j < leftTarget) {
+                telemetry.addData("Left Encoder Position", robot.left.getCurrentPosition());
+                telemetry.addData("Right Encoder Position", robot.right.getCurrentPosition());
+                telemetry.update();
                 if(i < rightTarget){
                     robot.right.setPower((maxRightSpeed * speed));
                     i = robot.right.getCurrentPosition();

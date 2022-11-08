@@ -135,15 +135,15 @@ public class NovAutoSimple extends LinearOpMode {
             //Drive and Drop Cone
             //moveEncoder(0.8, -encoderDrivingTarget);
             // driveReverse(0.8, 80);
-            driveBack(1,750);
+            driveBackSec(0.3,60);
             sleep(300);
 
 
             switch (tagOfInterest.id) {
-                case 1:             turnRightSec(0.3, 38);
-                    sleep(300);driveBackSec(1, 18); break;
-                case 3:             turnRightSec(0.3, 35);
-                    sleep(300);driveStraightSec(1, 18); break;
+                case 1:turnRightSec(0.3, 35); sleep(300);
+                driveBackSec(0.3, 60); break;
+                case 3:turnRightSec(0.3, 50);sleep(300);
+                driveStraightSec(0.3, 140); break;
                 default: robot.left.setPower(0); robot.right.setPower(0); break;
             }
             //moveArm(0.5, 0, 0);
@@ -354,7 +354,7 @@ public class NovAutoSimple extends LinearOpMode {
     public void driveBackSec(double speed, double seconds){
         robot.left.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         double maxLeftSpeed = 1;
-        double maxRightSpeed = 0.8;
+        double maxRightSpeed = 0.7;
         robot.right.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         if (opModeIsActive()) {
 
