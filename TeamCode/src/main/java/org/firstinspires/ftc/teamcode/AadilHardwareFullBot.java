@@ -24,6 +24,10 @@ public class AadilHardwareFullBot {
     public DcMotorEx armright;
     public DcMotorEx armleft;
     public Servo servo;
+    //public DcMotorEx f_right;
+   // public DcMotorEx f_left; //Rajiv added
+   // public DcMotorEx b_right;
+   // public DcMotorEx b_left;
 
     HardwareMap hwMap;
 
@@ -34,6 +38,20 @@ public class AadilHardwareFullBot {
     public void init(HardwareMap ahwMap) {
         hwMap=ahwMap;
 
+        // Define Each Individual Wheel Motor
+        // Define and Initialize Motors
+   /*     f_right  = hwMap.get(DcMotorEx.class, "f_right");
+        f_left = hwMap.get(DcMotorEx.class, "f_left");
+        b_right  = hwMap.get(DcMotorEx.class, "b_right");
+        b_left = hwMap.get(DcMotorEx.class, "b_left");*/
+         armleft = hwMap.get(DcMotorEx.class, "armleft");
+         armright = hwMap.get(DcMotorEx.class, "armright");
+         servo = hwMap.get(Servo.class, "servo");
+
+     /*   f_left.setDirection(DcMotorEx.Direction.REVERSE);
+        b_left.setDirection(DcMotorEx.Direction.REVERSE);
+        f_right.setDirection(DcMotorEx.Direction.FORWARD);
+        b_right.setDirection(DcMotorEx.Direction.FORWARD);*/
         // Define and Initialize Motors
         left  = hwMap.get(DcMotorEx.class, "left");
         right = hwMap.get(DcMotorEx.class, "right");
